@@ -1,7 +1,6 @@
-import sys
-import getopt
 import argparse
 import configparser
+import sys
 
 from module.clean_user import clean_user
 
@@ -15,42 +14,20 @@ def read_config():
     return config
 
 
-# Show help.
-def help():
-    parser = argparse.ArgumentParser(
-        description='Clean inactive users in Bonita BPM')
-    parser.add_argument('-a', '--all', action='store_true',
-                        help='clean users include active users')
-    args = parser.parse_args()
-
-
 def main():
     # Get config.
     config = read_config()
 
     # Parse args.
-    options = "ha"
-    long_options = ["help", "all"]
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], options, long_options)
-    except getopt.GetoptError as err:
-        print str(err)
-        help()
-        sys.exit()
+    parser = argparse.ArgumentParser(
+        description='Clean inactive users in Bonita BPM')
+    parser.add_argument('-a', '--all',
+                        action='store_true',
+                        help='clean users include active users')
+    args = parser.parse_args()
 
-    all = False
-    for o, a in opts:
-        # Show help.
-        if o in ("-h", "--help"):
-            help()
-            sys.exit()
-        # Clean user include active users.
-        elif o in ("-a", "--all"):
-            all = True
-        else:
-            assert False, "unhandled option"
     # Clean inactive users.
-    clean_user(config, all)
+    clean_user(config, args.all)
 
 
 if __name__ == "__main__":

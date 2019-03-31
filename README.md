@@ -6,4 +6,3 @@ on Bonita BPM Community 7.3.1
 * To Run ```$ python buc.py```.
 
 Get help: ```$ python buc.py -h```
-
